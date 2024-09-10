@@ -41,9 +41,7 @@ static lastIndex = 0
    * Добавление новой записи
    */
   addItem() {
-    if(Store.lastIndex===0) Store.lastIndex=this.state.list[this.state.list.length-1].code+1;
-    else Store.lastIndex++;
-    //Store.lastIndex = Store.lastIndex==0? this.state.list[this.state.list.length-1] : Store.lastIndex+1;
+    Store.lastIndex = (Store.lastIndex===0)?  this.state.list[this.state.list.length-1].code+1 : Store.lastIndex+1
     this.setState({
       ...this.state,
       list: [...this.state.list, { code: Store.lastIndex, title: 'Новая запись', count: 0 }],
@@ -85,15 +83,8 @@ static lastIndex = 0
 function getItemTitle(item) {
   if (item.count > 0) {
     return item.title + ' | Выделяли ' + item.count + getStringEnd(item.count);
-    /*
-    if ((item.count%10>1 && item.count%10<5)
-      && !(item.count in [12, 13, 14])) {
-      return item.title + ' | Выделяли ' + item.count + ' раза';
-    } else {
-      return item.title + ' | Выделяли ' + item.count + ' раз';
-    }*/
   }
-  else return item.title;
+  return item.title;
 }
 
 function getStringEnd(count){
