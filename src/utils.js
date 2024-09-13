@@ -26,3 +26,20 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+export function pluralize({word, count, options = {}}) {
+  var pluralize = new Intl.PluralRules('ru-Ru',{type: 'cardinal'})
+  let { one, few, many } = options
+  const ends = new Map([
+    ['one', (one ? one : '')],
+    ['few', (few ? few : 'а')],
+    ['many', (many ? many : '')],
+  ])
+
+  const rule = pluralize.select(count)
+  const end = ends.get(rule)
+  return `${word}${end}`
+}
+
+
+

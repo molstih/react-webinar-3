@@ -1,3 +1,5 @@
+import {pluralize} from "./utils";
+
 /**
  * Хранилище состояния приложения
  */
@@ -77,20 +79,12 @@ static lastIndex = 0
       }),
     });
   }
-
-
 }
 function getItemTitle(item) {
   if (item.count > 0) {
-    return item.title + ' | Выделяли ' + item.count + getStringEnd(item.count);
+    return  `${item.title} | Выделяли ${item.count} ${pluralize({word: 'раз', count: item.count, options: {}})}`
   }
   return item.title;
-}
-
-function getStringEnd(count){
-  if(((count%10) ===2 || (count%10) ===3 ||(count%10) === 4) &&(Math.round(count/10)!==1)  ){
-    return ' раза'
-  } else return ' раз'
 }
 
 export {Store, getItemTitle};
