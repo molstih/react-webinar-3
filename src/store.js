@@ -1,4 +1,6 @@
 import {pluralize} from "./utils";
+import React from "react";
+import {useContext} from "react";
 
 /**
  * Хранилище состояния приложения
@@ -6,7 +8,8 @@ import {pluralize} from "./utils";
 class Store {
   constructor(initState = {}) {
     this.state = initState;
-    this.listeners = []; // Слушатели изменений состояния
+    this.listeners = [];
+    this.lastCode = 0// Слушатели изменений состояния
   }
   /**
    * Подписка слушателя на изменения состояния
@@ -43,10 +46,9 @@ static lastIndex = 0
    * Добавление новой записи
    */
   addItem() {
-    Store.lastIndex = (Store.lastIndex===0)?  this.state.list[this.state.list.length-1].code+1 : Store.lastIndex+1
     this.setState({
       ...this.state,
-      list: [...this.state.list, { code: Store.lastIndex, title: 'Новая запись', count: 0 }],
+      list: [...this.state.list, { code: this.getUniqueCode(), title: 'Новая запись', count: 0 }],
     });
   }
 
@@ -71,13 +73,24 @@ static lastIndex = 0
       list: this.state.list.map(item => {
         if (item.code === code) {
           item.selected = !item.selected;
-          if(item.selected) item.count++;
+
         } else {
           item.selected = false
         }
+        if(item.selected) item.count++;
         return item;
       }),
     });
+  }
+
+  /**
+   * Получение уникального кода с использованием контекста
+   */
+  getUniqueCode(){
+    if(this.lastCode===0) this.lastCode = this.state.list[this.state.list.length-1].code+1
+    const currentCode = this.lastCode
+    this.lastCode = this.lastCode+1
+    return currentCode
   }
 }
 function getItemTitle(item) {

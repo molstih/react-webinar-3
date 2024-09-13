@@ -11,6 +11,11 @@ import './styles.css';
 function App({ store }) {
   const list = store.getState().list;
 
+  const handleDeleteClick = (event, code) =>{
+    event.stopPropagation()
+    store.deleteItem(code)
+  }
+
   return (
     <div className="App">
       <div className="App-head">
@@ -30,7 +35,7 @@ function App({ store }) {
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">{getItemTitle(item)}</div>
                 <div className="Item-actions">
-                  <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
+                  <button onClick={(event) => handleDeleteClick(event, item.code)}>Удалить</button>
                 </div>
               </div>
             </div>
