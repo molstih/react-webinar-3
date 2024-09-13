@@ -1,6 +1,4 @@
 import {pluralize} from "./utils";
-import React from "react";
-import {useContext} from "react";
 
 /**
  * Хранилище состояния приложения
