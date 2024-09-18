@@ -1,21 +1,51 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
+import ModalWindow from "../modalwindow";
+import {plural} from "../../utils";
 
-function Controls({ onAdd }) {
+function Controls({ quantityOfProduct, sumCart, itemsCart, remove }) {
+  const [isModalChange, setModalChange] = useState(false);
+  const openModalFormChange = e => {
+    setModalChange(true);
+  };
+  const close = () => {
+    setModalChange(false);
+  };
   return (
     <div className="Controls">
-      <button onClick={() => onAdd()}>Добавить</button>
-    </div>
-  );
+      <div className="Controls_item">
+        {' '}
+        В корзине:{' '}
+        <span className="Controls_quantity">
+          {quantityOfProduct
+            ? `${quantityOfProduct} ${plural(quantityOfProduct, {
+              one: 'товар',
+              few: 'товара',
+              many: 'товаров',
+            })} / ${sumCart} ₽`
+            : 'пусто'}
+        </span>
+      </div>
+      <button onClick={openModalFormChange}>Перейти</button>
+      {isModalChange && (
+        <ModalWindow
+          remove={remove}
+          close={close}
+          itemsCart={itemsCart}
+          sumCart={sumCart}
+        />
+      )}
+</div>
+)
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func,
+  remove: PropTypes.func,
 };
 
 Controls.defaultProps = {
-  onAdd: () => {},
+  remove: () => {},
 };
 
 export default React.memo(Controls);

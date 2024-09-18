@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import List from './components/list';
 import Controls from './components/controls';
 import Head from './components/head';
@@ -11,35 +11,58 @@ import PageLayout from './components/page-layout';
  */
 function App({ store }) {
   const list = store.getState().list;
+  const [itemsCart, setItemsCart] = React.useState([]);
+  const [sum, setSum] = React.useState(0);
+  const addToCart= (item, quantity=1) => {
+    const itemId = itemsCart.findIndex(element => element.code === item);
+    if(itemId < 0) {
+      const cardFilter = list.filter(element => element.code === item);
+      const newItem = {
+        ...cardFilter,
+        code: item,
+        quantity: quantity
+      };
+      setItemsCart([...itemsCart, newItem]);
+    } else {
+      const newItem = {
+        ...itemsCart[itemId],
+        quantity: itemsCart[itemId].quantity + quantity,
+      };
+      const newCart = itemsCart.slice();
+      newCart.splice(itemId, 1, newItem);
+      setItemsCart(newCart);
+    }
+  }
 
-  const callbacks = {
-    onDeleteItem: useCallback(
-      code => {
-        store.deleteItem(code);
-      },
-      [store],
-    ),
+  const quantityProduct = itemsCart.reduce((sum, item) => sum + item.quantity, 0);
 
-    onSelectItem: useCallback(
-      code => {
-        store.selectItem(code);
-      },
-      [store],
-    ),
+  const sumItem = cart => {
+    const summ = cart.reduce((accumulatedQuantity, cartItem) => {
+      return accumulatedQuantity + cartItem.quantity * cartItem[0].price;
+    }, 0);
 
-    onAddItem: useCallback(() => {
-      store.addItem();
-    }, [store]),
+    setSum(summ.toFixed());
   };
+
+  const remove = cart => {
+    const cartFilterItem = itemsCart.filter(cartItem => cartItem.code !== cart);
+    setItemsCart(cartFilterItem);
+  };
+  useEffect(() => {
+    sumItem(itemsCart);
+  }, [itemsCart]);
 
   return (
     <PageLayout>
-      <Head title="Приложение на чистом JS" />
-      <Controls onAdd={callbacks.onAddItem} />
+      <Head title="Магазин" />
+      <Controls
+        quantityOfProduct={quantityProduct}
+        sumCart={sum}
+        itemsCart={itemsCart}
+        remove={remove}
+        />
       <List
-        list={list}
-        onDeleteItem={callbacks.onDeleteItem}
-        onSelectItem={callbacks.onSelectItem}
+        list={list} addToCart={addToCart}
       />
     </PageLayout>
   );
