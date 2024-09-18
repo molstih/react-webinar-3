@@ -30,8 +30,6 @@ CartItem.propTypes = {
   remove: PropTypes.func
 }
 
-CartItem.defaultProps = {
-  remove: ()=>{}
-}
+
 
 export default CartItem;

@@ -32,8 +32,6 @@ Item.propTypes = {
   addToCart: PropTypes.func
 };
 
-Item.defaultProps = {
-  addToCart: () => {}
-};
+
 
 export default React.memo(Item);

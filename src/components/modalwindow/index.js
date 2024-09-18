@@ -49,9 +49,6 @@ ModalWindow.propTypes = {
   close: PropTypes.func,
   remove: PropTypes.func
 }
-ModalWindow.defaultProps = {
-  close: () => {},
-  remove: () => {}
-}
+
 
 export default React.memo(ModalWindow);

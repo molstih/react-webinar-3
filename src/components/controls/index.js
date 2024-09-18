@@ -46,8 +46,5 @@ Controls.propTypes = {
   remove: PropTypes.func,
 };
 
-Controls.defaultProps = {
-  remove: () => {},
-};
 
 export default React.memo(Controls);
