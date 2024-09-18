@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './style.css';
 import ModalWindow from "../modalwindow";
 import {plural} from "../../utils";
+import item from "../item";
 
 function Controls({ quantityOfProduct, sumCart, itemsCart, remove }) {
   const [isModalChange, setModalChange] = useState(false);
@@ -12,6 +13,7 @@ function Controls({ quantityOfProduct, sumCart, itemsCart, remove }) {
   const close = () => {
     setModalChange(false);
   };
+
   return (
     <div className="Controls">
       <div className="Controls_item">

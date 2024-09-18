@@ -12,6 +12,7 @@ import PageLayout from './components/page-layout';
 function App({ store }) {
   const list = store.getState().list;
   const [itemsCart, setItemsCart] = React.useState([]);
+  const [count, setCount] = React.useState(0);
   const [sum, setSum] = React.useState(0);
   const addToCart= (item, quantity=1) => {
     const itemId = itemsCart.findIndex(element => element.code === item);
@@ -23,6 +24,7 @@ function App({ store }) {
         quantity: quantity
       };
       setItemsCart([...itemsCart, newItem]);
+      setCount(count + 1);
     } else {
       const newItem = {
         ...itemsCart[itemId],
@@ -46,6 +48,9 @@ function App({ store }) {
 
   const remove = cart => {
     const cartFilterItem = itemsCart.filter(cartItem => cartItem.code !== cart);
+    if(cartFilterItem.filter(cartItem => cartItem.code === cart).length === 0){
+      setCount(count-1);
+    }
     setItemsCart(cartFilterItem);
   };
   useEffect(() => {
@@ -56,7 +61,7 @@ function App({ store }) {
     <PageLayout>
       <Head title="Магазин" />
       <Controls
-        quantityOfProduct={quantityProduct}
+        quantityOfProduct={count}
         sumCart={sum}
         itemsCart={itemsCart}
         remove={remove}
