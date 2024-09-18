@@ -15,7 +15,7 @@ function Item(props) {
     <div className={'Item'}>
       <div className="Item-code">{props.item.code}</div>
       <div className="Item-title">{props.item.title}</div>
-      <div className="Item-price">{props.item.price} &#8381;</div>
+      <div className="Item-price">{props.item.price} ₽</div>
       <div className={'Item-actions'}>
         <button className="Button" onClick={callbacks.addToCart}>Добавить</button>
       </div>
