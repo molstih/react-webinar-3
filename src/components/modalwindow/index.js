@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import './style.css'
-import CartItem from "../cart-item";
+import List from "../list";
 
-const ModalWindow= ({close, itemsCart, remove, sumCart})=> {
+const ModalWindow= ({close, basket, remove})=> {
   const handleCloseModal = (event) => {
     if (event.currentTarget === event.target) {
       close();
@@ -13,7 +13,7 @@ const ModalWindow= ({close, itemsCart, remove, sumCart})=> {
     <div role='button'
          tabIndex={0}
          className='ModalWindow'
-         onClick={handleCloseModal}
+         onClick={close}
          aria-label="close modal window"
     >
       <div className='Modal-wrapper'>
@@ -24,11 +24,12 @@ const ModalWindow= ({close, itemsCart, remove, sumCart})=> {
           </div>
         </div>
         <div className='Modal_margin'></div>
-        {itemsCart.map((value) => (
-          <CartItem key={value.code} {...value} remove={remove}/>
-        ))}
-        <div className='Modal_total'>
-          Итого <span>{sumCart} ₽</span>
+          <List
+            list={basket.items}
+            editCart={remove}
+          ></List>
+      <div className='Modal_total'>
+      Итого <span>{basket.amount.toLocaleString()} ₽</span>
         </div>
         <div className='Modal_margin-bottom'></div>
       </div>
@@ -38,14 +39,7 @@ const ModalWindow= ({close, itemsCart, remove, sumCart})=> {
 }
 
 ModalWindow.propTypes = {
-  itemsCart: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.number,
-      title: PropTypes.string,
-      price: PropTypes.number
-    })
-  ).isRequired,
-  sumCart: PropTypes.string,
+  basket: PropTypes.object.isRequired,
   close: PropTypes.func,
   remove: PropTypes.func
 }

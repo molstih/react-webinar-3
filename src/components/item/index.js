@@ -5,9 +5,10 @@ import './style.css';
 function Item(props) {
 
   const callbacks = {
-    addToCart: e => {
+    editCart: e => {
       e.stopPropagation()
-      props.addToCart(props.item.code);
+      props.editCart(props.item.code);
+
     }
   };
 
@@ -15,9 +16,18 @@ function Item(props) {
     <div className={'Item'}>
       <div className="Item-code">{props.item.code}</div>
       <div className="Item-title">{props.item.title}</div>
-      <div className="Item-price">{props.item.price} ₽</div>
+      <div className="Item-price">{props.item.price.toLocaleString()} ₽ </div>
+      {props.item.quantity
+        ? <span className="Item-quantity">{props.item.quantity} шт.</span>
+        : ' '
+      }
       <div className={'Item-actions'}>
-        <button className="Button" onClick={callbacks.addToCart}>Добавить</button>
+        <button className="Button" onClick={callbacks.editCart}>
+          {props.item.quantity
+            ? 'Удалить'
+            : 'Добавить'
+          }
+        </button>
       </div>
     </div>
   );
@@ -27,9 +37,10 @@ Item.propTypes = {
   item: PropTypes.shape({
     code: PropTypes.number,
     title: PropTypes.string,
-    price: PropTypes.number
+    price: PropTypes.number,
+    quantity: PropTypes.number,
   }).isRequired,
-  addToCart: PropTypes.func
+  editCart: PropTypes.func
 };
 
 

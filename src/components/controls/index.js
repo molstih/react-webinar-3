@@ -3,16 +3,8 @@ import PropTypes from 'prop-types';
 import './style.css';
 import ModalWindow from "../modalwindow";
 import {plural} from "../../utils";
-import item from "../item";
 
-function Controls({ quantityOfProduct, sumCart, itemsCart, remove }) {
-  const [isModalChange, setModalChange] = useState(false);
-  const openModalFormChange = e => {
-    setModalChange(true);
-  };
-  const close = () => {
-    setModalChange(false);
-  };
+function Controls({ basket, remove, open }) {
 
   return (
     <div className="Controls">
@@ -20,24 +12,17 @@ function Controls({ quantityOfProduct, sumCart, itemsCart, remove }) {
         {' '}
         В корзине:{' '}
         <span className="Controls_quantity">
-          {quantityOfProduct
-            ? `${quantityOfProduct} ${plural(quantityOfProduct, {
+          {basket.count
+            ? `${basket.count} ${plural(basket.count, {
               one: 'товар',
               few: 'товара',
               many: 'товаров',
-            })} / ${sumCart} ₽`
+            })} / ${basket.amount.toLocaleString('ru-RU')} ₽`
             : 'пусто'}
         </span>
       </div>
-      <button onClick={openModalFormChange}>Перейти</button>
-      {isModalChange && (
-        <ModalWindow
-          remove={remove}
-          close={close}
-          itemsCart={itemsCart}
-          sumCart={sumCart}
-        />
-      )}
+      <button onClick={open}>Перейти</button>
+
 </div>
 )
 }

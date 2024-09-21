@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { generateCode } from './utils.js';
 import App from './app.js';
 import Store from './store.js';
+import {array, arrayOf} from "prop-types";
 
 const store = new Store({
   list: [
@@ -14,6 +15,11 @@ const store = new Store({
     { code: generateCode(), title: 'Карандаши цветные', price: 111 },
     { code: generateCode(), title: 'Товар сюрприз', price: 0 },
   ],
+  basket: {
+    items: [],
+    count: 0,
+    amount: 0
+  }
 });
 
 const root = createRoot(document.getElementById('root'));

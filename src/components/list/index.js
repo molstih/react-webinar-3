@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Item from '../item';
 import './style.css';
 
-function List({ list, addToCart }) {
+function List({ list, editCart }) {
   return (
     <div className="List">
       {list.map(item => (
         <div key={item.code} className="List-item">
-          <Item item={item} addToCart={addToCart} />
+          <Item item={item} editCart={editCart} />
         </div>
       ))}
     </div>
@@ -21,7 +21,7 @@ List.propTypes = {
       code: PropTypes.number,
     }),
   ).isRequired,
-  addToCart: PropTypes.func,
+  editCart: PropTypes.func
 };
 
 
