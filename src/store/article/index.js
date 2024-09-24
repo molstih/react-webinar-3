@@ -7,8 +7,8 @@ class Article extends StoreModule {
     }
   }
   async loadArticle(id) {
-    const response = await fetch(`/api/v1/articles/${id}?fields=_id,title,edition,price,description,madeIn(title,code),category(title)`)
-    const result = await response.json().then(
+    const response = await (await fetch(`/api/v1/articles/${id}?fields=_id,title,edition,price,description,madeIn(title,code),category(title)`))
+    .json().then(
       (data) => {
         this.setState({
           ...this.getState(),
