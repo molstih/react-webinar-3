@@ -6,9 +6,13 @@ import BasketTool from '../../components/basket-tool';
 import List from '../../components/list';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
+import Navbar from "../../components/navbar";
+import Pagination from "../../components/pagination";
+import Basket from "../basket";
 
 function Main() {
   const store = useStore();
+  const activeModal = useSelector(state => state.modals.name);
 
   useEffect(() => {
     store.actions.catalog.load();
@@ -18,30 +22,46 @@ function Main() {
     list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    count: state.catalog.count,
+    current: state.catalog.current,
   }));
-
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    setNumberPage: useCallback((page)=>store.actions.catalog.setNumberPage(page), [store]),
   };
 
   const renders = {
     item: useCallback(
       item => {
-        return <Item item={item} onAdd={callbacks.addToBasket} />;
+        return <Item item={item} link={'/article/'} onAdd={callbacks.addToBasket} />;
       },
       [callbacks.addToBasket],
     ),
   };
 
   return (
+    <>
     <PageLayout>
       <Head title="Магазин" />
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
-      <List list={select.list} renderItem={renders.item} />
+      <Navbar/>
+      <BasketTool
+        onOpen={callbacks.openModalBasket}
+        amount={select.amount}
+        sum={select.sum} />
+      <List
+        list={select.list}
+        renderItem={renders.item} />
+      <Pagination
+        current={select.current}
+        total={select.count}
+        size={10}
+        setNumberPage={page=>callbacks.setNumberPage(page)}/>
     </PageLayout>
+      {activeModal === 'basket' && <Basket/>}
+    </>
   );
 }
 

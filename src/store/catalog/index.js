@@ -10,20 +10,32 @@ class Catalog extends StoreModule {
   initState() {
     return {
       list: [],
+      count: 0,
+      current: 1
     };
   }
 
   async load() {
-    const response = await fetch('/api/v1/articles');
+    const current = this.getState().current;
+    const response = await fetch(`/api/v1/articles?limit=10&skip=${current*10 - 10}&fields=items(_id,_key,title,price),count`);
     const json = await response.json();
     this.setState(
       {
         ...this.getState(),
         list: json.result.items,
+        count: json.result.count
       },
-      'Загружены товары из АПИ',
     );
   }
-}
 
+  async setNumberPage(pageNum) {
+    const response = await fetch(`/api/v1/articles?limit=10&skip=${pageNum*10-10}`);
+    const json = await response.json();
+    this.setState({
+      ...this.getState(),
+      list: json.result.items,
+      current: pageNum
+    }, )
+  }
+}
 export default Catalog;

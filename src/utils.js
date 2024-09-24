@@ -33,3 +33,8 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export function range(first, last){
+  const length = last - first + 1;
+  return Array.from({length},(_,idx)=>idx+first)
+}
