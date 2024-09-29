@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 
 function ItemBasket(props) {
   const cn = bem('ItemBasket');
+  const url = `${props.link}/${props.item._id}`
 
 
   const callbacks = {
@@ -17,7 +18,7 @@ function ItemBasket(props) {
 
   return (
     <div className={cn()}>
-      <Link onClick={callbacks.onClose} to={`${props.link}/${props.item._id}`} className={cn('title')}>
+      <Link onClick={callbacks.onClose} to={url} className={cn('title')}>
         {props.item.title}
       </Link>
       <div className={cn('right')}>

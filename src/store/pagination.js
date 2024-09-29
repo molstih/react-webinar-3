@@ -15,12 +15,10 @@ export default function usePagination({
     const totalPageCount = Math.ceil(total / size);
     const totalPageNumbers = sibling + 5;
 
-    // 1 вариант: Если страниц меньше чем 6, то просто выводим пагинацию
     if (totalPageNumbers >= totalPageCount) {
       return range(1, totalPageCount);
     }
 
-    // находим индексы элементов рядом с текущей страницей
     const leftIndex = Math.max(current - sibling, 1);
     const rightIndex = Math.min(current + sibling, totalPageCount);
 

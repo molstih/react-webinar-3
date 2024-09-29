@@ -23,7 +23,7 @@ function Article(){
     item: state.article.item
   }))
   const callbacks = {
-    addToBasket: useCallback(_id=>store.actions.article.addToBasket(_id), [store]),
+    addToBasket: useCallback(_id=>store.actions.article.addToBasket(id), [store]),
     openModalBasket: useCallback(()=>store.actions.modals.open('basket'), [store]),
   }
 

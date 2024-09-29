@@ -1,15 +1,17 @@
-import {memo} from 'react'
+import {memo, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {numberFormat} from "../../utils";
 import {cn as bem} from '@bem-react/classname'
 import './style.css'
+import useStore from "../../store/use-store";
 
 function ArticleItem(props) {
+  const store = useStore()
   const {title, code} = props.item.madeIn
   const cn = bem('ArticleItem');
 
   const callbacks = {
-    onAdd: e => props.onAdd(props.item._id),
+    onAdd: e => useCallback(props.onAdd(props.item._id),[store])
   }
   return (
     <div className={cn()}>
