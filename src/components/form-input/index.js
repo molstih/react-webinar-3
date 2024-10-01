@@ -8,7 +8,7 @@ function FormInput(props){
     props.onChange(e.target.value)
   }
   useLayoutEffect(()=>props.onChange(props.value),[props.value])
-  const cn = bem('Input');
+  const cn = bem('Form-input');
 
 
   return (
