@@ -52,7 +52,7 @@ class loginState extends StoreModule {
     const options = {
       headers: {
         'Content-Type': 'application/json',
-        'X-Token': token,
+        'X-token': token,
       }
     }
     try {
@@ -82,7 +82,7 @@ class loginState extends StoreModule {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'X-Token': token
+        'X-token': token
       }
     }
     try {
@@ -91,12 +91,12 @@ class loginState extends StoreModule {
       if(json){
         this.setState({
           loginData: {},
+          basket: {},
           waiting: false,
           error: null
-        })
+        }, 'Account exit')
       }
-      localStorage.removeItem('X-Token')
-
+      localStorage.removeItem('X-token')
     } catch (e) {
       this.setState({
         loginData: {},

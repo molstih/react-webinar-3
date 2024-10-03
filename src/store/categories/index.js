@@ -26,7 +26,7 @@ class CategoriesState extends StoreModule {
   getCategories(categories, parent = null, nesting= 0){
     const result = []
     categories.forEach(category => {
-      if(category.parent && category.parent.id == parent || (!category.parent && !parent)){
+      if(category.parent && category.parent._id === parent || (!category.parent && !parent)){
         result.push({
           _id: category._id,
           title: ('- ').repeat(nesting)+ ' ' + category.title,

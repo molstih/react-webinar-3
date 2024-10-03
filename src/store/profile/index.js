@@ -16,7 +16,7 @@ class profileState extends StoreModule {
     const options = {
       headers: {
         'Content-Type': 'application/json',
-        'X-Token': token,
+        'X-token': token,
       }
     }
     const response = await fetch(`api/v1/users/self?fields=*`, options)
