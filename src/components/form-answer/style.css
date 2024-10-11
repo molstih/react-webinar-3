@@ -1,0 +1,46 @@
+.FormAnswer{
+  display: flex;
+  flex-direction: column;
+}
+.FormAnswer-title{
+  font-size: 12px;
+  color: #000;
+}
+.FormAnswer-textarea{
+  box-sizing: border-box;
+  padding: 4px 5px;
+  border: 1px solid #666;
+  box-shadow: inset 0 1px 4px 0 rgba(102, 102, 102, 0.1);
+  background: #ffffff;
+  min-height: 80px;
+}
+.FormAnswer-textarea::placeholder{
+  font-size: 14px;
+  color: #000000;
+}
+.FormAnswer-actions{
+  display: flex;
+}
+.FormAnswer-btn{
+  padding: 3px 9px;
+}
+.FormAnswer-login{
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  display: flex;
+}
+.FormAnswer-link{
+  color: #0087e9;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+}
+.FormAnswer-cancel{
+  color: #666;
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+}
