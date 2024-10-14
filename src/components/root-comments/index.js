@@ -7,6 +7,7 @@ import './style.css'
 function RootComments({active,
                         comments,
                         user,
+                        current,
                         nameForm,
                         existsSession,
                         openAnswer,
@@ -27,7 +28,7 @@ function RootComments({active,
             key={comment._id}
             commentInfo={comment}
             userId={user}
-            current={user}
+            current={current}
             last={lastChild}
             existsSession={existsSession}
             nameForm={nameForm}

@@ -62,10 +62,10 @@ function Comments(){
         countComments={selectRedux.count}
       >
           <RootComments
-            comments={commentsList}
             active={active}
-            current={active}
+            comments={commentsList}
             user={select.userId}
+            current={active}
             existsSession={select.exists}
             openAnswer={callbacks.openAnswer}
             hideAnswer={callbacks.hideAnswer}
