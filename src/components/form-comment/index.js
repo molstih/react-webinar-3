@@ -23,6 +23,7 @@ function FormComment({existsSession, login, onComment, t}){
           <h3 className={cn('h3')}>{t('comment.newComment')}</h3>
           <textarea className={cn('text')}
                     placeholder={t('comment.placeholder')}
+                    rows="5"
                     onChange={(e)=>handleChange(e)}
                     value={textComment} />
           <button className={cn('btn')}>{t('comment.send')}</button>

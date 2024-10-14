@@ -10,39 +10,37 @@ import FormComment from "../../components/form-comment";
 import listToTree from "../../utils/list-to-tree";
 import CommentLayout from "../../components/comment-layout";
 import RootComments from "../../components/root-comments";
+import treeToList from "../../utils/tree-to-list";
 
 function Comments(){
   const {t} = useTranslate()
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate()
+  const [active, setActive] = React.useState('');
 
   const selectRedux = useSelectorRedux(state => ({
     comments: state.comments.comments,
     count: state.comments.count,
     articleId: state.article.data._id,
     activeRootId: state.comments.activeIdComment,
-    currentId: state.comments.currentId,
-    userAnswer: state.comments.userName,
     form: state.forms.name,
   }), shallowequal)
 
   const select = useSelector(state => ({
-    exists: state.session.exists
+    exists: state.session.exists,
+    userId: state.session.user._id
   }))
   const comments = listToTree([{_id: selectRedux.articleId, parent: null}, ...selectRedux.comments])
+  const commentsList = treeToList(comments, (item, level)=>({...item, level}));
+  commentsList.shift()
 
   const callbacks = {
-    openAnswer: useCallback((name, activeId, currentId, userName)=>{
-      console.log('ebta')
-      console.log(name)
-      console.log(activeId)
-      console.log(currentId)
-      console.log(userName)
-      dispatch(commentsActions.setActiveIdComment(activeId, currentId, userName));
+    openAnswer: useCallback((name, activeId)=>{
+      setActive(activeId);
       dispatch(formsActions.open(name))
     },[]),
-    hiddenAnswer: useCallback(() => {
+    hideAnswer: useCallback(() => {
       dispatch(formsActions.open('comment'))
     }, []),
     login: useCallback(()=>{
@@ -63,23 +61,25 @@ function Comments(){
       <CommentLayout t={t}
         countComments={selectRedux.count}
       >
-        {comments[0].children.map(child => (
           <RootComments
-            key={child._id}
-            rootId={selectRedux.activeRootId}
-            current={selectRedux.currentId}
-            root={child}
+            comments={commentsList}
+            active={active}
+            current={active}
+            user={select.userId}
             existsSession={select.exists}
             openAnswer={callbacks.openAnswer}
-            hiddenAnswer={callbacks.hiddenAnswer}
+            hideAnswer={callbacks.hideAnswer}
             login={callbacks.login}
             onComment={callbacks.onComment}
-            username={selectRedux.userAnswer}
             t={t}
             nameForm={selectRedux.form}
             />
-        ))}
-        {selectRedux.form==="comment" && <FormComment existsSession={select.exists} login={callbacks.login} onComment={callbacks.onComment} t={t} />}
+
+        {selectRedux.form==="comment" &&
+          <FormComment existsSession={select.exists}
+                       login={callbacks.login}
+                       onComment={callbacks.onComment}
+                       t={t} />}
       </CommentLayout>
   )
 

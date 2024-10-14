@@ -43,10 +43,5 @@ export default {
         console.log(e)
       }
     };
-  },
-
-  setActiveIdComment: (id, currentId, userName) => {
-    return { type: 'comments/setActiveIdComment', payload: {id, currentId, userName}}
   }
-
 };

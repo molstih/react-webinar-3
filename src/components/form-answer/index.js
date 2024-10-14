@@ -7,7 +7,13 @@ import './style.css'
 import PropTypes from "prop-types";
 
 
-function FormAnswer({existsSession, username, login,hiddenAnswer,onComment, current, t}){
+function FormAnswer({
+                      current,
+                      existsSession,
+                      hideAnswer,
+                      onComment,
+                      login,
+                      t}){
   const cn = bem('FormAnswer')
   const [textAnswer, setTextAnswer] = React.useState('')
   const answerRef = React.useRef()
@@ -21,11 +27,13 @@ function FormAnswer({existsSession, username, login,hiddenAnswer,onComment, curr
   }
   useEffect(() => {
     if(answerRef.current){
-      answerRef.current.scrollIntoView({behavior: 'smooth'})
+      const offset = answerRef.current?.getBoundingClientRect().y+window.scrollY
+      if(offset) {
+        window.scrollTo({top: offset - window.innerHeight / 2, behavior: 'instant'})
+      }
     }
   }, [answerRef]);
 
-  const dispatch = useDispatch
   return (
     <>
       {existsSession
@@ -37,11 +45,12 @@ function FormAnswer({existsSession, username, login,hiddenAnswer,onComment, curr
             <textarea
               className={cn('text')}
               value={textAnswer}
+              rows={5}
               onChange={(e)=>handleChange(e)}
               placeholder={'Мой ответ для'}/>
             <div className={cn('actions')}>
               <button className={cn('btn')} disabled={!textAnswer?.trim()}>{t('comment.send')}</button>
-              <button className={cn('btn')} onClick={hiddenAnswer}>{t('comment.close')}</button>
+              <button className={cn('btn')} onClick={hideAnswer}>{t('comment.close')}</button>
             </div>
           </form>
         ) : (

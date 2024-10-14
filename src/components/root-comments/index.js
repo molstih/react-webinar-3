@@ -1,40 +1,47 @@
-import React from "react"
+import React, {memo} from "react"
 import ItemComment from "../item-comment"
 import {cn as bem} from '@bem-react/classname'
-import treeToList from "../../utils/tree-to-list"
 import './style.css'
-import FormAnswer from "../form-answer";
 
 
-function RootComments({username, root, rootId, current, nameForm,existsSession, openAnswer, login, onComment, hiddenAnswer, t}){
+function RootComments({active,
+                        comments,
+                        user,
+                        nameForm,
+                        existsSession,
+                        openAnswer,
+                        login,
+                        onComment,
+                        hideAnswer,
+                        t}){
   const cn = bem('RootComments')
-  const comments = treeToList(root.children, (item, level)=>({
-    ...item,
-      level
-  }))
-  return (
+  const last = comments.findLastIndex(comment=>comment?.parent?._id===active)
+  console.log(`last: ${last}`)
+  const lastChild = last===-1 ? active : comments[last]?.id
+
+    return (
     <>
-      <div className={'RootComments'}>
-        <ItemComment rootId={root._id} commentInfo={root} openAnswer={openAnswer} t={t}/>
-        {comments.length > 0 && comments.map(comment =>
-          <ItemComment
-            rootId={root._id}
+      <ul className={cn()}>
+        {comments.map((comment)=>{
+          return <ItemComment
             key={comment._id}
             commentInfo={comment}
+            userId={user}
+            current={user}
+            last={lastChild}
+            existsSession={existsSession}
+            nameForm={nameForm}
             openAnswer={openAnswer}
+            hideAnswer={hideAnswer}
+            onComment={onComment}
+            login={login}
             t={t}
-          />)}
-      </div>
-      {nameForm==='answer' && rootId ===root._id && <FormAnswer
-        username={username}
-        login={login}
-        hiddenAnswer={hiddenAnswer}
-        onComment={onComment}
-        current={current}
-        t={t}
-        existsSession={existsSession}/>}
+          />
+        })}
+      </ul>
+
     </>
   )
 }
 
-export default RootComments
+export default memo(RootComments)
